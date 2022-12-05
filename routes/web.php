@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EmailVerificationController;
+use App\Http\Controllers\Api\V1\EmailVerificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/verify-mail/{token}',[EmailVerificationController::class,'verifyMail']);
+Route::get('/V1/verify-mail/{token}',[EmailVerificationController::class,'verifyMail']);

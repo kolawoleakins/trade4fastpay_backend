@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTradeRequest;
 use App\Http\Resources\TradeResource;
 use App\Models\Trade;
@@ -22,6 +23,7 @@ class TradeController extends Controller
     public function index()
     {
         //
+
         return TradeResource::collection(
             Trade::where('user_id',Auth::user()->id)->get()
         );
@@ -45,8 +47,10 @@ class TradeController extends Controller
      */
     public function store(StoreTradeRequest $request)
     {
+        //validate the input from the trade creation 
       $request->validated($request->all());
 
+      //creates a trade with a one(user) to many(trade) relationship with user
       $trade = Trade::create(
         [
             'user_id' => Auth::user()->id,
@@ -61,6 +65,7 @@ class TradeController extends Controller
         );
 
 
+        //return data with the aid of a resource class 
         return new TradeResource($trade);
     }
 
@@ -74,11 +79,26 @@ class TradeController extends Controller
     {
         //
 
+        //restricts the trade shown to that on the user with the current bearer token
         if(Auth::user()->id !== $trade->user_id) 
         {
             return $this->failed('','You are not authorized to make this request',403);
 
         }
+
+        // dd(Trade::where('user_id',Auth::user()->id));
+        
+        // if(!Trade::where('user_id',Auth::user()->id)->get())
+        // {
+        //     return response()->json(
+        //         [
+        //             "state" => "null",
+        //             "message" => "no trade has been don by the current user"
+        //         ]
+        //         );
+        // }
+
+        //handling the data return with the help of a resource class 
         return new TradeResource($trade);
     }
 
@@ -113,13 +133,21 @@ class TradeController extends Controller
      */
     public function destroy(Trade $trade)
     {
-        //
+        //this will delete a trade
         if(Auth::user()->id !== $trade->user_id) 
         {
             return $this->failed('','You are not authorized to make this request',403);
 
         }
         $trade->delete();
-        return response(null,204);
+        return response()->json(
+            [
+                "status" => 'success',
+                "message" => "trade deletion successful",
+                "data" => null
+            ],
+            204
+            );
+       // return response(null,204);
     }
 }
