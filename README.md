@@ -1,6 +1,9 @@
 # API For Trade4FastPay Project 
 
-__Note: *The Api Was Version by Storing the Controllers in a Route folder and 
+
+
+
+__Note: *The Api Was Versioned by Storing the Controllers in a Route folder and 
 adding a url prefix of V1*.__
 
 ## Routes available : 
@@ -8,7 +11,7 @@ adding a url prefix of V1*.__
 __Note: *Base = localhost,http://127.0.0.1:8000 or any base route 
 created by your local machine or remote host.*__
 
-### Routes for On Authorized Users.
+### Routes for Unauthorized Users.
 * Register User : Base/api/V1/register
 * Send mail verification : Base/api/V1/send-verify-mail/{email} 
 * Forgot password : Base/api/V1/forgot-password/{email} 
